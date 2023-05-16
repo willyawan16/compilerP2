@@ -1,9 +1,12 @@
 %{
 #define MAX_LINE_LENGTH 256
 #define LIST strcat(buf,yytext)
-#define token(s) {LIST; printf("<%s>\n", s);} 
-#define tokenIdent(t) {LIST; printf("<identifier:%s>\n", t);} 
-#define tokenNum(t) {LIST; printf("<num:%s>\n", t);}
+// #define token(s) {LIST; printf("<%s>\n", s);} 
+// #define tokenIdent(t) {LIST; printf("<identifier:%s>\n", t);} 
+// #define tokenNum(t) {LIST; printf("<num:%s>\n", t);}
+#define token(s) {LIST; } 
+#define tokenIdent(t) {LIST; } 
+#define tokenNum(t) {LIST; }
 #include<stdio.h>
 #include<string.h>
 #include<ctype.h>
@@ -37,11 +40,21 @@ ID {LETTER}({LETTER}|{DIGITS})*
 	LIST; 
 	BEGIN 0;}
 
-<multiCom>.*\%\} {
+<multiCom>\n {
+	LIST;
+	printf("%d: %s", linenum, buf);
+	linenum++; 
+	yylineno++;
+	buf[0] = '\0';
+	BEGIN multiCom; }
+
+<multiCom>(\*+)\} {
 	LIST;
 	BEGIN 0; }
-	
-<multiCom>.* {
+
+
+
+<multiCom>[^%}\n]+ {
 	LIST;
 	BEGIN multiCom; }
 
@@ -166,6 +179,7 @@ ID {LETTER}({LETTER}|{DIGITS})*
 \n {
 	LIST;
 	printf("%d: %s", linenum, buf);
+	yylineno++;
 	linenum++; 
 	buf[0] = '\0'; 
 	/* Only for debug */
@@ -207,11 +221,11 @@ ID {LETTER}({LETTER}|{DIGITS})*
 // int main(int argc, char** argv)
 // {
 	
-// 	// if (argc > 0) {
-//     //     yyin = fopen(argv[1], "r");
-//     // } else {
-//     //     yyin = stdin;
-//     // }
+	// if (argc > 0) {
+    //     yyin = fopen(argv[1], "r");
+    // } else {
+    //     yyin = stdin;
+    // }
     
 //     create();
 // 	yylex();
