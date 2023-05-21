@@ -1387,27 +1387,6 @@ void create() {
     currentTable = -1;
     Col_ST = malloc(NUMBER_OF_ST * sizeof(struct SymbolTable*));
 
-	// initiate symbol table
-	// symbols.capacity = ST_LENGTH;
-    // 	symbols.size = 0;
-	// symbols.strList = malloc(symbols.capacity * sizeof(char*));
-	// symbols.valueType = malloc(symbols.capacity * sizeof(enum ValueType));
-	// symbols.storeType = malloc(symbols.capacity * sizeof(enum StoreType));
-	// if(symbols.strList == NULL) {
-    //     printf("Unable to allocate memory for strList:(\n");
-    //     return;
-    // }
-
-    // if(symbols.valueType == NULL) {
-    //     printf("Unable to allocate memory for valueType:(\n");
-    //     return;
-    // }
-
-    // if(symbols.storeType == NULL) {
-    //     printf("Unable to allocate memory for storeType:(\n");
-    //     return;
-    // }
-
     createChildTable();
 }
 
